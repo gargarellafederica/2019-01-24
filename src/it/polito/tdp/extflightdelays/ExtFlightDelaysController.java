@@ -5,9 +5,11 @@
 package it.polito.tdp.extflightdelays;
 
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import it.polito.tdp.extflightdelays.model.Model;
+import it.polito.tdp.extflightdelays.model.Uscenti;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -47,7 +49,10 @@ public class ExtFlightDelaysController {
 
     @FXML
     void doCreaGrafo(ActionEvent event) {
-
+    	this.model.creagrafo();
+    	txtResult.clear();
+    	txtResult.appendText("Grafo creato! \nHa "+ this.model.getvertici().size() + " vertici e "+ this.model.getnarchi()+ " archi\n");
+    	cmbBoxStati.getItems().addAll(this.model.getvertici());
     }
 
     @FXML
@@ -57,6 +62,18 @@ public class ExtFlightDelaysController {
 
     @FXML
     void doVisualizzaVelivoli(ActionEvent event) {
+    	String stato=cmbBoxStati.getValue();
+    	if(stato==null)
+    		txtResult.appendText("Selezionare uno stato!\n");
+    	else {
+    		if(this.model.stampastatiuscenti(stato)==null)
+    			txtResult.appendText("Non ha stati uscenti!\n");
+    		else {
+    			List<Uscenti> statiuscenti= this.model.stampastatiuscenti(stato);
+    			txtResult.appendText(statiuscenti.toString());
+    		}
+    			
+    	}
 
     }
     
